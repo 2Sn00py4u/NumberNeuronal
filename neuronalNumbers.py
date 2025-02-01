@@ -38,15 +38,14 @@ class number_neuronalNetwork():
                     for i,line in enumerate(images_csv):
                         if i != 0:
                             paths = line.split(";")
+                            paths.pop(len(paths)-1)
                             print(paths)
                             for n in range(len(paths)):
-                                print(f"including: {os.path.join(os.path.dirname(os.path.abspath(__file__)),paths[i])}")
-                                train_data[n].append(IS.grayscale_Image_to_array(image_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), paths[i]), scale=(0,1)))
+                                print(f"including: {os.path.join(os.path.dirname(os.path.abspath(__file__)),paths[n])}")
+                                train_data[n].append(IS.grayscale_Image_to_array(image_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), paths[n]), scale=(0,1)))
                     images_csv.close()
                 return train_data    
         self.train_data = get_traindata()
-        print(self.train_data)
-        print(self.train_data.keys())
         
         for number in self.train_data:
             for i in range(len(self.train_data[number])):
@@ -57,16 +56,6 @@ class number_neuronalNetwork():
                             number_zeromap.append((line_index,pixel_index))
                 self.zeromap[number].append(number_zeromap)
         print(self.zeromap[1])
-        """
-        for number in self.train_data:
-            for i in range(len(self.train_data[number])):
-                self.zeromap[number].append([])
-                for line in self.train_data[number][i]:
-                    for a, pixel in enumerate(line):
-                        if pixel == 0.0:
-                            self.zeromap[number][i].append((i, a))
-        print(self.zeromap)                    
-        """
         
     def train_model(self):
         pass
@@ -85,11 +74,17 @@ class number_neuronalNetwork():
         #compare to each number
         output = {}
         for number in self.zeromap:
+            print(number)
+            output[number] = 0
             equal_pixel = 0
-            for pixel in zeromap_predict_image:
-                if pixel in self.zeromap[number]:
-                    equal_pixel +=1
-            output[number] = (equal_pixel/count_zero) *100
+            for i in range(len(self.zeromap[number])):
+                for pixel in zeromap_predict_image:
+                    if pixel in self.zeromap[number][i]:
+                        equal_pixel +=1
+                Zwischenergebnis = (equal_pixel/count_zero) *100
+                print(Zwischenergebnis)
+                output[number] += Zwischenergebnis
+            output[number] = output[number]/len(self.zeromap[number])
             
         return output
             
