@@ -57,7 +57,7 @@ class number_neuronalNetwork():
                 self.zeromap[number].append(number_zeromap)
         print(self.zeromap[1])
         
-    def train_model(self):
+    def train_model(self, train_data_csv):
         pass
 
     def predict_model(self, Image_path_to_predict):
