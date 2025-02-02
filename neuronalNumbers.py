@@ -76,12 +76,15 @@ class number_neuronalNetwork():
         for number in self.zeromap:
             print(number)
             output[number] = 0
-            equal_pixel = 0
+            output[f"complete match ({number})"] = 0
             for i in range(len(self.zeromap[number])):
+                equal_pixel = 0
                 for pixel in zeromap_predict_image:
                     if pixel in self.zeromap[number][i]:
                         equal_pixel +=1
                 Zwischenergebnis = (equal_pixel/count_zero) *100
+                if Zwischenergebnis == 100:
+                    output[f"complete match ({number})"] +=1
                 print(Zwischenergebnis)
                 output[number] += Zwischenergebnis
             output[number] = output[number]/len(self.zeromap[number])
@@ -99,6 +102,9 @@ for i in range(len(img_list)):
 
 numberNeuro = number_neuronalNetwork("traindata\\train_numbers.csv")
 
-output = numberNeuro.predict_model("testdata\\fünf.png")
+output = numberNeuro.predict_model("traindata\\1\\number1.png")
 for key in output:
-    print(f"{key}: {output[key]}%")
+    if type(key) == int:
+        print(f"{key}: {output[key]}%")
+    elif type(key) == str:
+        print(f"{key}: {output[key]} time(s)")

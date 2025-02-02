@@ -10,7 +10,7 @@ def scaling(number, scale_now:tuple, scale_new:tuple):
 
 def resize_image(image_path:str, format:tuple):
     if os.path.exists(image_path):
-        shutil.copyfile(image_path, os.path.join(os.path.dirname(image_path),"image_original_" + image_path.rsplit("\\")[len(image_path.rsplit("\\"))-1]))
+        shutil.copyfile(image_path, os.path.join(os.path.dirname(os.path.abspath(__file__)), "traindata\\original_nums","image_original_" + image_path.rsplit("\\")[len(image_path.rsplit("\\"))-1]))
         with Image.open(image_path) as img:
             resized_img = img.resize(format)
             resized_img.save(image_path)      
