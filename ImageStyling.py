@@ -19,7 +19,7 @@ def resize_image(image_path:str, format:tuple):
     
 def grayscale_Image_to_array(image_path:str, debug:bool = False, size = (48,48), **kwargs):
     with Image.open(image_path) as img_file:
-        print(img_file.size)
+        #print(img_file.size)
         if img_file.size != size:
             resize_image(image_path, size)
             
